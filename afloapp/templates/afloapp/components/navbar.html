@@ -1,0 +1,22 @@
+<nav style="padding: 0 2rem; border-bottom: 2px solid grey">
+    <ul>
+        <li><strong>Sentim'Hunt</strong></li>
+    </ul>
+    <ul>
+        {% if request.user.is_authenticated %}
+            <small style="margin-right: 1rem">Bonjour, {{request.user.username}}</small>
+            <li><a href="{% url 'home' %}">Home</a></li>
+            <li><a href="{% url 'formations' %}">Formations</a></li>
+            <li><a href="{% url 'formateurs' %}">Formateurs</a></li>
+        {% endif %}
+        <li><a href="{% url 'about' %}">About</a></li>
+        <li><a href="{% url 'contact' %}">Contact</a></li>
+        {% if request.user.is_authenticated %}
+            <li><a href="{% url 'logout' %}" style="color: lightgoldenrodyellow" onmouseover="this.style.color='yellow'" onmouseout="this.style.color='lightgoldenrodyellow'">Logout</a></li>
+        {% else %}
+            <li><a href="{% url 'login' %}" style="color: lightgoldenrodyellow" onmouseover="this.style.color='yellow'" onmouseout="this.style.color='lightgoldenrodyellow'">Login</a></li>
+            <li><a href="{% url 'register' %}" style="color: lightgoldenrodyellow" onmouseover="this.style.color='yellow'" onmouseout="this.style.color='lightgoldenrodyellow'">Register</a></li>
+        {% endif %}
+        <li><a href="#" id="button">☀️</a></li>
+    </ul>
+</nav>

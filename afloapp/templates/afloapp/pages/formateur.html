@@ -1,0 +1,14 @@
+{% extends 'afloapp/layouts/main.html' %}
+
+{% block content %}
+<h1>{{formateur.nom}}</h1>
+<p>Spécialité : {{formateur.specicialite}}</p>
+{% if formateur.formation %}
+    <div style="display: flex; justify-content: space-between; align-items: start">
+        <p>Responsable de : {{formateur.formation}}</p>
+        {% if perms.change_formation %}
+            <a href="{% url 'remove-responsability' formateur.id %}">Ne plus être responsable</a>
+        {% endif %}
+    </div>
+{% endif %}
+{% endblock content %}

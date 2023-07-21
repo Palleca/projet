@@ -1,0 +1,60 @@
+{% extends 'afloapp/layouts/main.html' %}
+
+{% block content %}
+    <div style="display: flex; justify-content: space-between; align-items: start">
+        <h1>Formations</h1>
+        {% if perms.add_formation %}
+          <a href="{% url 'create-formation' %}" role="button">Créer une formation</a>
+        {% endif %}
+    </div>
+    {% for formation in formations %}
+        <div style="display: flex; justify-content: space-between">
+            <small style="font-size: 1rem"><a href="{% url 'formation' formation.id %}">{{formation.id}}</a> - {{formation.nom}}</small>
+            {% if perms.change_formation %}
+              <a href="{% url 'update-formation' formation.id %}">Modifier</a>
+            {% endif %}
+        </div>
+        <div style="display: flex; justify-content: space-between">
+            <small style="font-size: 0.8rem; color: grey">Dernière modification : {{formation.updatedAt}}</small>
+            {% if perms.delete_formation %}
+              <a href="{% url 'delete-formation' formation.id %}" style="color: lightcoral">Supprimer</a>
+            {% endif %}
+            {% comment %} <a href="#" style="color: lightcoral" data-target="modal-example" onclick="toggleModal(event)">Supprimer</a> {% endcomment %}
+        </div>
+
+        {% if formation.responsable %}
+        <div style="display: flex; justify-content: space-between">
+          <small style="font-size: 0.8rem; color: grey">Responsable : <a href="{% url 'formateur' formation.responsable.id %}">{{formation.responsable}}</a></small>
+        </div>
+        {% endif %}
+
+        <hr style="margin: 10px 0">
+        <!-- Modal -->
+        <dialog id="modal-example">
+          <article>
+            <a href="#close"
+              aria-label="Close"
+              class="close"
+              data-target="modal-example"
+              onClick="toggleModal(event)">
+            </a>
+            <h3>Etes-vous sûr de vouloir supprimer cette formation ?</h3>
+            <p>
+              Cette action est irréversible...
+            </p>
+            <footer>
+              <a href="#"
+                role="button"
+                class="secondary"
+                data-target="modal-example"
+                onClick="toggleModal(event)">
+                Annuler
+              </a>
+              <a href="{% url 'delete-formation' formation.id %}" role="button">
+                Confirmer
+              </a>
+            </footer>
+          </article>
+        </dialog>
+    {% endfor %}
+{% endblock content %}                                  

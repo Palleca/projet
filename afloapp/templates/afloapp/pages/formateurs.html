@@ -1,0 +1,58 @@
+{% extends 'afloapp/layouts/main.html' %}
+
+{% block content %}
+    <div style="display: flex; justify-content: space-between; align-items: start">
+        <h1>Formateurs</h1>
+        {% if perms.add_formateur %}
+         <a href="{% url 'create-formateur' %}" role="button">Créer un formateur</a>
+        {% endif %}
+    </div>
+    {% for formateur in formateurs %}
+        <div style="display: flex; justify-content: space-between">
+            <small style="font-size: 1rem"><a href="{% url 'formateur' formateur.id %}">{{formateur.id}}</a> - {{formateur.nom}}</small>
+            {% if perms.change_formateur %}
+              <a href="{% url 'update-formateur' formateur.id %}">Modifier</a>
+            {% endif %}
+        </div>
+        <div style="display: flex; justify-content: space-between; align-items: end">
+            <small style="font-size: 0.8rem; color: grey">
+              {% if formateur.formation %}
+                Responsable de : {{formateur.formation}}
+              {% endif %}
+            </small>
+            {% if perms.delete_formateur %}
+              <a href="{% url 'delete-formateur' formateur.id %}" style="color: lightcoral">Supprimer</a>
+            {% endif %}
+            {% comment %} <a href="#" style="color: lightcoral" data-target="modal-example" onclick="toggleModal(event)">Supprimer</a> {% endcomment %}
+        </div>
+
+        <hr style="margin: 10px 0">
+        <!-- Modal -->
+        <dialog id="modal-example">
+          <article>
+            <a href="#close"
+              aria-label="Close"
+              class="close"
+              data-target="modal-example"
+              onClick="toggleModal(event)">
+            </a>
+            <h3>Etes-vous sûr de vouloir supprimer ce formateur ?</h3>
+            <p>
+              Cette acteur est irréversible...
+            </p>
+            <footer>
+              <a href="#"
+                role="button"
+                class="secondary"
+                data-target="modal-example"
+                onClick="toggleModal(event)">
+                Annuler
+              </a>
+              <a href="{% url 'delete-formateur' formateur.id %}" role="button">
+                Confirmer
+              </a>
+            </footer>
+          </article>
+        </dialog>
+    {% endfor %}
+{% endblock content %}                                  
